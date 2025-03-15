@@ -6,18 +6,18 @@ const mongoose = require("mongoose");
 const path = require("path");
 const ejsMate = require("ejs-mate");
 const methodOverride = require("method-override");
-const ExpressError = require(".functions/utils/ExpressError.js");
+const ExpressError = require("./functions/utils/ExpressError.js");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
-const User = require(".functions/models/user.js");
+const User = require("./functions/models/user.js");
 if (process.env.NODE_ENV != "production") {
   require("dotenv").config();
 }
 
-const listingRouter = require(".functions/routes/listings.js");
+const listingRouter = require("./functions/routes/listings.js");
 const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 const Listing = require("./models/listing.js");

@@ -1,15 +1,15 @@
 [build]
-command = "npm install"  # Install dependencies
-publish = "public"  # Only needed if you have static assets
+command = "npm install"
+publish = "public"  # Only if you have static files
 
 [build.environment]
-NODE_VERSION = "22.14.0"
-
-[dev]
-command = "netlify dev"  # Start local Netlify Functions server
-port = 8888
-targetPort = 3000
+NODE_VERSION = "20.18.1"  # Match your package.json version
 
 [functions]
-directory = "functions"  # This is where Netlify looks for functions
-node_bundler = "esbuild"  # Faster bundling for functions
+directory = "functions"
+node_bundler = "esbuild"
+
+[dev]
+command = "netlify dev"
+port = 8888
+targetPort = 3000

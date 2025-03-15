@@ -4,8 +4,25 @@ const mapToken = process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 
 module.exports.index = async (req, res) => {
-  const allListings = await Listing.find({});
-  res.render("listings/index", { allListings });
+  const { category } = req.query;
+  const { search } = req.query.listing || {};
+  let filter = {};
+
+  if (category) {
+    filter.category = { $in: [category] }; // Ensure it checks if category exists in array
+  }
+
+  if (search) {
+    filter.$or = [
+      { title: new RegExp(search, "i") }, // Case-insensitive title match
+      { location: new RegExp(search, "i") }, // Case-insensitive location match
+    ];
+  }
+
+  // Fetch listings based on the filter
+  const allListings = await Listing.find(filter);
+  // res.render("listings/index", { allListings });
+  res.render("listings/index", { allListings, currUser: req.session.currUser });
 };
 
 module.exports.renderNewForm = (req, res) => {
@@ -17,6 +34,7 @@ module.exports.showListing = async (req, res) => {
   let list = await Listing.findById(id)
     .populate({ path: "reviews", populate: { path: "author" } })
     .populate("owner");
+
   const currUser = req.user;
   if (!list) {
     req.flash("error", "Listing you requested for does not exist!");

@@ -1,5 +1,7 @@
 const express = require("express");
 const app = express();
+const serverless = require("serverless-http");
+
 const mongoose = require("mongoose");
 const path = require("path");
 const ejsMate = require("ejs-mate");
@@ -90,6 +92,8 @@ app.use((err, req, res, next) => {
   let { status = 500, message = "Something went wrong" } = err;
   res.status(status).render("error", { message });
 });
-app.listen(8005, () => {
-  console.log("Server is listenngg at port 8080...");
-});
+// app.listen(8005, () => {
+//   console.log("Server is listenngg at port 8080...");
+// });
+
+module.exports.handler = serverless(app);
